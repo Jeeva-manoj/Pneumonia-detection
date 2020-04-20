@@ -1,0 +1,10 @@
+net=alexnet;
+layers=net.Layers;
+layers(23)=fullyConnectedLayer(2);
+layers(25)=classificationLayer();
+images=imageDatastore('train','IncludeSubFolders',true,'LabelSource','foldernames');
+opts=trainingOptions('sgdm','InitialLearnRate',0.001,'MaxEpochs',20,'MiniBatchSize',64);
+pneunet=trainNetwork(train,layers,opts);
+preds=classify(pneunet,test);
+acc=mean(preds==test.Labels);
+disp(acc)
